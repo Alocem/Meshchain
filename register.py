@@ -118,14 +118,14 @@ async def main():
 
             for _ in range(num_accounts):
                 # 提示用户依次输入信息
-                name = await aioconsole.ainput("请输入您的姓名: ")
-                email = await aioconsole.ainput("请输入您的邮箱: ")
-                password = await aioconsole.ainput("请输入您的密码: ")
-                referral_code = await aioconsole.ainput("请输入邀请码 (默认: 7RIOY9U1T7V2): ") or "7RIOY9U1T7V2"
+                # name = await aioconsole.ainput("请输入您的姓名: ")
+                # email = await aioconsole.ainput("请输入您的邮箱: ")
+                # password = await aioconsole.ainput("请输入您的密码: ")
+                # referral_code = await aioconsole.ainput("请输入邀请码 (默认: 7RIOY9U1T7V2): ") or "7RIOY9U1T7V2"
 
                 # 注册账户
-                register_message = await register(session, name, email, password, referral_code)
-                logger.info(f"注册结果: {register_message}")
+                # register_message = await register(session, name, email, password, referral_code)
+                logger.info(f"跳过注册，请手动注册")
 
                 # 登录账户
                 login_data = await login(session, email, password)

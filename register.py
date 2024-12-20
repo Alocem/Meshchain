@@ -26,11 +26,13 @@ async def coday(url, method, headers, payload_data=None):
                 except aiohttp.ContentTypeError:
                     json_data = {}
                 if not response.ok:
+                    logger.error(f"请求错误, 状态码: {response.status}, 错误信息: {json_data}")
                     return {'error': True, 'status': response.status, 'data': json_data}
                 return json_data
     except Exception as e:
         logger.error(f"Error in coday: {e}")
         return {'error': True, 'message': str(e)}
+
 
 # 注册函数
 async def register(session, name, email, password, referral_code):
@@ -48,7 +50,12 @@ async def login(session, email, password):
         "email": email,
         "password": password,
     }
-    return await coday('https://api.meshchain.ai/meshmain/auth/email-signin', 'POST', headers, payload_login)
+    login_data = await coday('https://api.meshchain.ai/meshmain/auth/email-signin', 'POST', headers, payload_login)
+    if 'access_token' not in login_data:
+        logger.error(f"登录失败，返回数据: {login_data}")
+        return None  # 或者根据需要返回一个更合适的错误信息
+    return login_data
+
 
 # 验证邮箱函数
 async def verify(session, email, otp):
@@ -56,7 +63,11 @@ async def verify(session, email, otp):
         "email": email,
         "code": otp,
     }
-    return await coday('https://api.meshchain.ai/meshmain/auth/verify-email', 'POST', headers, payload_verify)
+    verify_data = await coday('https://api.meshchain.ai/meshmain/auth/verify-email', 'POST', headers, payload_verify)
+    if 'error' in verify_data and verify_data['error']:
+        logger.error(f"邮箱验证失败: {verify_data['message']}")
+    return verify_data
+
 
 # 领取奖励函数
 async def claim_bnb(session):

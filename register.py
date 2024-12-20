@@ -121,7 +121,7 @@ async def main():
                 name = await aioconsole.ainput("请输入您的姓名: ")
                 email = await aioconsole.ainput("请输入您的邮箱: ")
                 password = await aioconsole.ainput("请输入您的密码: ")
-                referral_code = await aioconsole.ainput("请输入邀请码 (默认: PUSNGANNMK2B): ") or "PUSNGANNMK2B"
+                referral_code = await aioconsole.ainput("请输入邀请码 (默认: 7RIOY9U1T7V2): ") or "7RIOY9U1T7V2"
 
                 # 注册账户
                 register_message = await register(session, name, email, password, referral_code)
